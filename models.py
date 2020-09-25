@@ -44,7 +44,7 @@ class SpGAT(nn.Module):
                                              concat=False
                                              )
 
-    def forward(self, Corpus_, batch_inputs, entity_embeddings, relation_embed,
+    def forward(self, Corpus_, batch_inputs, entity_embeddings, relation_embed, #注意这里的batch_inputs其实就是train_indices（一些三元组）
                 edge_list, edge_type, edge_embed, edge_list_nhop, edge_type_nhop):
         x = entity_embeddings
 
@@ -110,7 +110,7 @@ class SpKBGATModified(nn.Module):
             size=(self.entity_in_dim, self.entity_out_dim_1 * self.nheads_GAT_1)))
         nn.init.xavier_uniform_(self.W_entities.data, gain=1.414)
 
-    def forward(self, Corpus_, adj, batch_inputs, train_indices_nhop):
+    def forward(self, Corpus_, adj, batch_inputs, train_indices_nhop): #注意这里的batch_inputs其实就是train_indices（一些三元组）
         # getting edge list
         edge_list = adj[0]
         edge_type = adj[1]
