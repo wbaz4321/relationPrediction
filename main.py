@@ -219,7 +219,7 @@ def train_gat(args):
 
         for iters in range(num_iters_per_epoch):
             start_time_iter = time.time()
-            train_indices, train_values = Corpus_.get_iteration_batch(iters)
+            train_indices, train_values = Corpus_.get_iteration_batch(iters) # 注意前面 Corpus_.train_indices代表的是全部training samples 而这里 get_iteration_batch()输出的其实是 batch_indices
 
             if CUDA:
                 train_indices = Variable(
