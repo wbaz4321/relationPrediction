@@ -277,6 +277,8 @@ def train_conv(args):
 
     model_gat.load_state_dict(torch.load(
         '{}/trained_{}.pth'.format(args.output_folder, args.epochs_gat - 1)), strict=False)
+    
+    # 读取model_gat里的final embedding
     model_conv.final_entity_embeddings = model_gat.final_entity_embeddings
     model_conv.final_relation_embeddings = model_gat.final_relation_embeddings
 
@@ -362,8 +364,8 @@ def evaluate_conv(args, unique_entities):
     with torch.no_grad():
         Corpus_.get_validation_pred(args, model_conv, unique_entities)
 
-
+# 注意这里的步骤 先训练train_gat得到每个node的新的embedding 然后再训练conv 相当于用预训练好的node embedding去输入到conv里
 train_gat(args)
-
+# 所以再train_conv的代码里面就会出现一个 model_gat.load...的代码 那里读取的其实是model_gat里的final embedding
 train_conv(args)
 evaluate_conv(args, Corpus_.unique_entities_train)
